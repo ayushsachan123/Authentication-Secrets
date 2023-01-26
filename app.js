@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -43,6 +44,7 @@ app.post("/register",function(req,res){
             password:hash
          });
 
+
     newUser.save(function(err){
         if(err){
             console.log(err);
@@ -57,7 +59,7 @@ app.post("/register",function(req,res){
 
 app.post("/login",function(req,res){
     const username = req.body.username;
-    const password = req.body.password;
+    const password = md5(req.body.password);
 
     User.findOne({email:username},function(err,foundUser){
         if(err){
