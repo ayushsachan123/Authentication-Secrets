@@ -82,8 +82,13 @@ app.get('/auth/google',
     res.redirect('/secrets');
   });
 
-app.get("/register",function(req,res){
-    res.render("register");
+app.get("/secrets",function(req,res){
+if(req.isAuthenticated()){
+    res.render("secrets");
+}
+else{
+    res.redirect("/login");
+}
 });
 
 app.get("/login",function(req,res){
@@ -125,12 +130,14 @@ app.post("/register",function(req,res){
           password: req.body.password,
         });
       
+
         req.login(user, function(err){
           if (err) {
             console.log(err);
           } else {
             passport.authenticate("local")(req, res, function() {
               res.redirect("/secrets");
+
             });
           }
         });
